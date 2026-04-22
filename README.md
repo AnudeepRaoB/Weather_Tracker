@@ -1,36 +1,52 @@
-# Predictive Weather Analytics
+# Weather Tracker | Predictive Analytics
+A sophisticated weather platform that tracks real-time data, maintains an extensive 5-year historical archive, and provides AI-driven temperature forecasts using machine learning.
 
-WeatherSphere is a premium Python application that not only tracks real-time weather but also analyzes historical trends and provides AI-driven temperature forecasts using machine learning.
-
-![Dashboard Preview](https://img.icons8.com/clouds/100/000000/cloud.png)
+## Demo
+(Add your demo link or screenshots here to showcase the glassmorphism UI)
 
 ## Features
-- **Real-time Data**: Fetches precise weather data using the OpenWeatherMap API.
-- **Historical Tracking**: Stores history in a local SQLite database for trend analysis.
-- **Predictive Analytics**: Uses Scikit-learn Linear Regression to forecast temperatures.
-- **Interactive Visuals**: Dynamic charts powered by Plotly.js.
+- **Real-time Data**: Fetches precise weather and atmospheric stats via Open-Meteo API.
+- **Archive Sync**: Automatically downloads **5 years of historical data** for new cities.
+- **Predictive AI**: Uses a Multi-Variate Random Forest model to forecast next-hour temperatures.
+- **24h Forecast**: Full daily timeline visualization with dynamic weather icons.
+- **History Chart**: High-density 7-day trend analysis with horizontal scrolling.
 
-##  Tech Stack
-- **Backend**: Flask, SQLAlchemy
-- **Data**: Pandas, Scikit-learn
-- **Frontend**: HTML5, Vanilla CSS, Plotly.js
+## Technology Stack
+- **Backend**: Python 3.x with Flask Framework.
+- **Frontend**: HTML5, Vanilla CSS, and JavaScript.
+- **AI/ML**: Scikit-Learn (Random Forest), Pandas, NumPy.
+- **Database**: SQLite with SQLAlchemy ORM.
+- **Visualization**: Matplotlib.
 
-##  Installation & Setup
+## Prerequisites
+- Python 3.x or higher.
+- Terminal/CLI access.
+- Internet connectivity (for API data).
 
-1. **Clone the repository** (if applicable) and navigate to the directory.
-2. **Install dependencies**:
+## Installation
+1. Clone the repository to your local machine.
+2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-3. **Configure API Key**:
-   - Get a free API key from [OpenWeatherMap](https://openweathermap.org/api).
-   - Create a `.env` file in the root directory.
-   - Add your key: `OPENWEATHER_API_KEY=your_key_here`.
-4. **Run the Application**:
-   ```bash
-   python app.py
+3. Create a `.env` file in the root directory and add:
    ```
-5. Open your browser and go to `http://127.0.0.1:5001`.
+   FLASK_SECRET_KEY=your_secret_key_here
+   DATABASE_URL=sqlite:///weather.db
+   ```
 
-##  How the Prediction Works
-The system uses a **Linear Regression model** specifically trained on the specific city's recent weather history (the last 20 records). It calculates the slope of temperature change over time to predict the likely value for the next hour. 
+## Running the Application
+To start the application, run the following command in the project root directory:
+```bash
+python3 app.py
+```
+Once started, the application will be available at: **http://127.0.0.1:5001**
+
+## Project Structure
+- **app.py**: Core Flask application and plot generation logic.
+- **api_client.py**: Integration with Open-Meteo for real-time and archive data.
+- **predictor.py**: Random Forest machine learning model and trend analysis.
+- **database.py**: SQLite database schema and ORM models.
+- **templates/**: Contains the frontend HTML views.
+- **static/**: Contains the CSS styling and JavaScript logic.
+- **requirements.txt**: Project dependencies list.

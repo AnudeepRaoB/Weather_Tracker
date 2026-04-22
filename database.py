@@ -24,5 +24,5 @@ class WeatherHistory(db.Model):
             'wind_speed': self.wind_speed,
             'description': self.description,
             'icon': self.icon,
-            'timestamp': self.timestamp.isoformat()
+            'timestamp': self.timestamp.strftime('%Y-%m-%d %H:%M:%S')
         }
