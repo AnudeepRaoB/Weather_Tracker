@@ -1,0 +1,7 @@
+flask
+requests
+pandas
+scikit-learn
+matplotlib
+python-dotenv
+flask-sqlalchemy

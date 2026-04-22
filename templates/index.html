@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Tracker</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Tracker</h1>
+        
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="City...">
+            <button id="searchBtn">Search</button>
+            <div id="loader" class="hidden">Loading...</div>
+        </div>
+
+        <div id="dashboard" class="hidden">
+            <div class="section">
+                <h2 id="cityName">City</h2>
+                <div class="stats">
+                    <p>Temp: <span id="currentTemp">--</span></p>
+                    <p>Status: <span id="weatherDesc">--</span></p>
+                    <p>Humidity: <span id="humidity">--</span></p>
+                    <p>Wind: <span id="windSpeed">--</span></p>
+                </div>
+            </div>
+
+            <div class="section prediction-section">
+                <h2>Prediction</h2>
+                <p>Next Hour: <strong id="predictedTempVal">--</strong></p>
+                <div class="stats">
+                    <p>31-Day Avg: <span id="avgTemp">--</span></p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>24h Forecast</h2>
+                <div id="forecastContainer" class="forecast-list"></div>
+            </div>
+
+            <div class="section">
+                <h2>History Chart (Scroll →)</h2>
+                <div class="scroll-container">
+                    <img id="chartImg" src="" alt="Chart">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
