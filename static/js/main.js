@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('weatherDesc').textContent = data.current.description;
         document.getElementById('humidity').textContent = data.current.humidity + "%";
         document.getElementById('windSpeed').textContent = data.current.wind_speed + " m/s";
+        document.getElementById('pressure').textContent = data.current.pressure + " hPa";
 
         const pred = document.getElementById('predictedTempVal');
         if (data.prediction && data.prediction.temp) {

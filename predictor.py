@@ -1,54 +1,27 @@
 import pandas as pd
-import numpy as np
 from sklearn.ensemble import RandomForestRegressor
-from datetime import datetime, timedelta
-
+from datetime import datetime
 def predict(history):
-    if len(history) < 20:
-        return None
-    data = []
+    if not history:return {"temp":0,"time":"No data"}
+    data=[]
     for h in history:
-        dt = h.timestamp
-        data.append({
-            'time': dt.timestamp(),
-            'hour': dt.hour,
-            'day': dt.timetuple().tm_yday,
-            'humidity': h.humidity if h.humidity else 0,
-            'wind': h.wind_speed if h.wind_speed else 0,
-            'temp': h.temp
-        })
-    df = pd.DataFrame(data)
-    X = df[['time', 'hour', 'day', 'humidity', 'wind']]
-    y = df['temp']
-    rf = RandomForestRegressor(n_estimators=100, random_state=42)
-    rf.fit(X, y)
-    last = history[-1]
-    next_dt = last.timestamp + timedelta(hours=1)
-    next_X = pd.DataFrame([{
-        'time': next_dt.timestamp(),
-        'hour': next_dt.hour,
-        'day': next_dt.timetuple().tm_yday,
-        'humidity': last.humidity if last.humidity else 0,
-        'wind': last.wind_speed if last.wind_speed else 0
-    }])
-    val = rf.predict(next_X)[0]
-    return {
-        "temp": f"{round(val, 1)}°C",
-        "time": next_dt.strftime('%H:%M')
-    }
-
+        data.append({'timestamp':h.timestamp,'temp':h.temp,'humidity':h.humidity,'wind_speed':h.wind_speed,'pressure':h.pressure})
+    df=pd.DataFrame(data)
+    df['ts']=pd.to_datetime(df['timestamp']).astype(int)/10**9
+    df['hour']=pd.to_datetime(df['timestamp']).dt.hour
+    df['day']=pd.to_datetime(df['timestamp']).dt.dayofyear
+    X=df[['ts','hour','day','humidity','wind_speed','pressure']]
+    y=df['temp']
+    model=RandomForestRegressor(n_estimators=100,random_state=42)
+    model.fit(X,y)
+    now=datetime.now()
+    last=df.iloc[-1]
+    future_X=pd.DataFrame([[now.timestamp(),now.hour,now.timetuple().tm_yday,last['humidity'],last['wind_speed'],last['pressure']]],columns=['ts','hour','day','humidity','wind_speed','pressure'])
+    p=model.predict(future_X)[0]
+    return {"temp":round(p,1),"time":now.strftime("%H:00")}
 def analyze(history):
-    if not history:
-        return {"avg": 0, "status": "N/A"}
-    temps = [h.temp for h in history]
-    avg = sum(temps) / len(temps)
-    status = "Stable"
-    if len(temps) >= 2:
-        if temps[-1] > temps[0]:
-            status = "Increasing"
-        elif temps[-1] < temps[0]:
-            status = "Decreasing"
-    return {
-        "avg": round(avg, 1),
-        "status": status
-    }
+    if not history:return {"avg":0}
+    temps=[h.temp for h in history[-744:]]
+    if not temps:return {"avg":0}
+    avg=sum(temps)/len(temps)
+    return {"avg":round(avg,1)}
